@@ -4,6 +4,20 @@
 # Tip: Use Ctrl+Shift+P in Visual Studio Code to get started with CMake.
 ########################################
 
+
+#include_directories("${CMAKE_SOURCE_DIR}/src/7_teamronaldo/include")
+#include_directories(/workspaces/2024-ikt218-osdev/src/7_teamronaldo/include/libc)
+
+# include_directories(
+#     "${CMAKE_SOURCE_DIR}/src/7_teamronaldo/include"
+#     "${CMAKE_SOURCE_DIR}/src/7_teamronaldo/include/libc"
+# )
+
+
+
+
+
+
 # Skip compiler self-tests (saves time, avoids errors with some cross compilers)
 set(CMAKE_C_COMPILER_WORKS 1)
 set(CMAKE_CXX_COMPILER_WORKS 1)
@@ -58,13 +72,26 @@ set(OS_KERNEL_LINKER "${CMAKE_CURRENT_SOURCE_DIR}/src/arch/${OS_ARCH_TARGET}/lin
 
 # Add executable target for the kernel
 add_executable(uiaos-kernel 
-	# src/multiboot2.asm # TODO: Add multiboot2 support
+	src/multiboot2.asm # TODO: Add multiboot2 support
     src/kernel.c
 	src/kernel.cpp
+	#src/libc/stdio.c
+	src/gdt/gdt.c
+	src/gdt/gdt.asm
+	src/terminal/terminal.c
+	
 )
+
+
 
 # Include directories for the kernel target
 target_include_directories(uiaos-kernel PUBLIC include)
+# target_include_directories(uiaos-kernel PUBLIC
+#     "${PROJECT_SOURCE_DIR}/include"
+#     "${PROJECT_SOURCE_DIR}/include/libc"
+# )
+
+   
 
 
 # Specify compile options for C and C++
