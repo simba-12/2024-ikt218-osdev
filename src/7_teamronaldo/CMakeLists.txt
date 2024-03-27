@@ -5,8 +5,9 @@
 ########################################
 
 
-#include_directories("${CMAKE_SOURCE_DIR}/src/7_teamronaldo/include")
-#include_directories(/workspaces/2024-ikt218-osdev/src/7_teamronaldo/include/libc)
+include_directories("${CMAKE_SOURCE_DIR}/src/7_teamronaldo/include")
+include_directories(/workspaces/2024-ikt218-osdev/src/7_teamronaldo/include/libc)
+include_directories(/workspaces/2024-ikt218-osdev/src/7_teamronaldo/src/arch/i386/interrupts)
 
 # include_directories(
 #     "${CMAKE_SOURCE_DIR}/src/7_teamronaldo/include"
@@ -79,7 +80,17 @@ add_executable(uiaos-kernel
 	src/gdt/gdt.c
 	src/gdt/gdt.asm
 	src/terminal/terminal.c
-	
+	src/arch/i386/interrupts/idt.c
+	src/arch/i386/interrupts/idt.h
+	src/arch/i386/interrupts/isr.asm
+	#src/arch/i386/interrupts/isr.c
+	src/arch/i386/interrupts/isr.cpp
+	src/arch/i386/interrupts/isr.h
+	src/arch/i386/interrupts/io.h
+	src/arch/i386/interrupts/keyboard.c
+	src/arch/i386/interrupts/keyboard.h
+	src/arch/i386/interrupts/kstdio.h
+	src/arch/i386/interrupts/interrupts.cpp  # Make sure this line is correct	
 )
 
 

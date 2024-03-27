@@ -16,7 +16,7 @@ const unsigned int VGA_HEIGHT = 25;
 unsigned int terminal_row = 0;
 unsigned int terminal_column = 0;
 // Terminal color and buffer
-unsigned char terminal_color = 0x02; // White on Black
+unsigned char terminal_color = 0x02; // Green on Black
 volatile char* terminal_buffer = (volatile char*)VGA_TEXT_MODE_BUFFER;
 
 void terminal_initialize(void) {
