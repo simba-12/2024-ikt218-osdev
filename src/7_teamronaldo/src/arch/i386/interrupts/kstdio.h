@@ -1,4 +1,3 @@
-// kstdio.h
 #ifndef KSTDIO_H
 #define KSTDIO_H
 
@@ -6,7 +5,11 @@
 extern "C" {
 #endif
 
+// Function prototypes
 void printf(const char* format, ...);
+void itoa(int value, char* str, int base);
+void reverse(char* str);
+void remove_leading_zeros(char* str);
 
 #ifdef __cplusplus
 }

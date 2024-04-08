@@ -1,8 +1,10 @@
 #include "idt.h"
+///#include "isr.h"
 
 extern void isr0();
 extern void isr1();
 extern void isr2();
+extern void irq1();
 
 struct idt_entry idt[256];
 struct idt_ptr idtp;
@@ -28,5 +30,7 @@ void init_idt() {
     idt_set_entry(0, (uint32_t)isr0, 0x08, 0x8E);
     idt_set_entry(1, (uint32_t)isr1, 0x08, 0x8E);
     idt_set_entry(2, (uint32_t)isr2, 0x08, 0x8E);
+    idt_set_entry(33,(uint32_t)irq1, 0x08, 0x8E);
     __asm__ __volatile__("lidt %0" : : "m" (idtp));
 }
+

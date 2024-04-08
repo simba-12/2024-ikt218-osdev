@@ -1,280 +1,61 @@
+#define IRQ0_TIMER 32
+#define IRQ1_KEYBOARD 33
 
 extern "C" {
     #include "libc/gdt.h"
     #include "libc/terminal.h"
-    #include "../../../arch/i386/interrupts/interrupts.h"
-    #include "../../../arch/i386/interrupts/keyboard.h"
-   
-
-
+    #include "arch/i386/interrupts/interrupts.h"
+    #include "arch/i386/interrupts/keyboard.h"
 }
 
-// Assume terminal_writestring is defined elsewhere in your kernel
+// Function declarations for ISR handlers and IDT initialization
+extern "C" void isr0_handler() {
+    // ISR 0 handler implementation
+    terminal_writestring("ISR 0 triggered\n");
+}
+
+extern "C" void isr1_handler() {
+    // ISR 1 handler implementation
+    terminal_writestring("ISR 1 triggered\n");
+}
+
+extern "C" void isr2_handler() {
+    // ISR 2 handler implementation
+    terminal_writestring("ISR 2 triggered\n");
+}
+
+extern "C" void init_idt();
+
+// Assume terminal_writestring and other terminal functions are defined elsewhere in your kernel
 extern void terminal_writestring(const char*);
+extern void terminal_initialize(void); // If you have a separate initialization function for terminal
 
-extern "C" int kernel_main() {
-    static int run_count = 0;
-    if (run_count == 0) {
-        terminal_writestring("Hello, World! \n");
-        run_count++;
-    } else {
-        terminal_writestring("Entered kernel_main again!\n");
-    }
-   
+// Kernel entry point
+extern "C" int kernel_main(uint32_t magic, struct multiboot_info* mb_info_addr) {
+    terminal_initialize();  // Initialize the terminal if not already done
+    terminal_writestring("Hello, World! \n");
+
     // Initialize the GDT
-     init_gdt();
-    // Print confirmation message using a kernel-specific function
+    init_gdt();
     terminal_writestring("GDT setup successfully.\n");
-    
-    // Further kernel initialization...
-     // Initialize the keyboard
-    init_keyboard();
-    terminal_writestring("Keyboard initialized.\n");
 
+    // Initialize IDT and register interrupt handlers
+    init_idt(); // Assuming this function is implemented to initialize your IDT
+    register_interrupt_handler(IRQ0_TIMER, isr0_handler); // IRQ numbers are used for clarity
+    register_interrupt_handler(IRQ1_KEYBOARD, isr1_handler);
+
+    // Initialize the keyboard
+    init_keyboard();
+    terminal_writestring("Keyboard initialized\n");
+
+    // Uncomment the following lines to test the ISRs after implementation
+    asm volatile("int $0x00"); // Test interrupt 0
+    asm volatile("int $0x01"); // Test interrupt 1
+    asm volatile("int $0x02"); // Test interrupt 2
+    //asm volatile("int $0x21");
+
+    // Enter an infinite loop or your main scheduler if you have one
+    while(1) { /* Halt CPU or perform other operations */ }
 
     return 0;
 }
-
-
-
-// // // These are the include directives for your GDT, terminal output, and keyboard handler.
-// // extern "C" {
-// //     #include "libc/gdt.h"
-// //     #include "libc/terminal.h"
-// //     #include "arch/i386/interrupts/keyboard.h"
-// // }
-
-// // // Forward declaration of a function that prints strings to the terminal.
-// // extern void terminal_writestring(const char*);
-
-// // // The Keyboard Interrupt Service Routine should be defined somewhere in your keyboard handler.
-// // // It's the function that gets called whenever a keyboard interrupt occurs.
-// // extern void keyboard_interrupt_handler();
-
-// // // This function will be used as an idle loop for your kernel.
-// // void kernel_main_loop() {
-// //     // This is a simple idle loop.
-// //     // The 'hlt' instruction halts the CPU until the next interrupt is fired, which is efficient.
-// //     while (true) {
-// //         asm volatile ("hlt");
-// //     }
-// // }
-
-// // // This is the entry point of your kernel after the bootloader hands off control.
-// // extern "C" int kernel_main() {
-// //     static int run_count = 0;
-// //     if (run_count == 0) {
-// //         terminal_writestring("Hello, World! \n");
-// //         run_count++;
-// //     } else {
-// //         terminal_writestring("Entered kernel_main again!\n");
-// //     }
-   
-// //     // Initialize the Global Descriptor Table (GDT).
-// //     init_gdt();
-// //     terminal_writestring("GDT setup successfully.\n");
-    
-// //     // Initialize the keyboard.
-// //     init_keyboard();
-// //     terminal_writestring("Keyboard initialized.\n");
-
-// //     // Register the keyboard interrupt handler.
-// //     // This is hypothetical; the actual function name or mechanism might differ.
-// //     // For example, it could be something like this:
-// //     // register_interrupt_handler(IRQ1_KEYBOARD, keyboard_interrupt_handler);
-    
-// //     // Enter the kernel's main loop.
-// //     kernel_main_loop();
-
-// //     // Code should never reach this point.
-// //     return 0;
-// // }
-
-
-// // // extern "C" {
-// // //     #include "libc/gdt.h"
-// // //     #include "libc/terminal.h"
-// // //     #include "../../../arch/i386/interrupts/keyboard.h"
-   
-
-
-// // // }
-
-// // // // Assume terminal_writestring is defined elsewhere in your kernel
-// // // extern void terminal_writestring(const char*);
-
-// // // extern "C" int kernel_main() {
-// // //     static int run_count = 0;
-// // //     if (run_count == 0) {
-// // //         terminal_writestring("Hello, World! \n");
-// // //         run_count++;
-// // //     } else {
-// // //         terminal_writestring("Entered kernel_main again!\n");
-// // //     }
-   
-// // //     // Initialize the GDT
-// // //      init_gdt();
-// // //     // Print confirmation message using a kernel-specific function
-// // //     terminal_writestring("GDT setup successfully.\n");
-    
-// // //     // Further kernel initialization...
-// // //      // Initialize the keyboard
-// // //     init_keyboard();
-// // //     terminal_writestring("Keyboard initialized.\n");
-
-
-
-
-// // //     return 0;
-// // // }
-
-
-
-// // // These are the include directives for your GDT, terminal output, and keyboard handler.
-// // extern "C" {
-// //     #include "libc/gdt.h"
-// //     #include "libc/terminal.h"
-// //     #include "arch/i386/interrupts/keyboard.h"
-// // }
-
-// // // Forward declaration of a function that prints strings to the terminal.
-// // extern void terminal_writestring(const char*);
-
-// // // The Keyboard Interrupt Service Routine should be defined somewhere in your keyboard handler.
-// // // It's the function that gets called whenever a keyboard interrupt occurs.
-// // extern void keyboard_interrupt_handler();
-
-// // // This function will be used as an idle loop for your kernel.
-// // void kernel_main_loop() {
-// //     // This is a simple idle loop.
-// //     // The 'hlt' instruction halts the CPU until the next interrupt is fired, which is efficient.
-// //     while (true) {
-// //         asm volatile ("hlt");
-// //     }
-// // }
-
-// // // This is the entry point of your kernel after the bootloader hands off control.
-// // extern "C" int kernel_main() {
-// //     static int run_count = 0;
-// //     if (run_count == 0) {
-// //         terminal_writestring("Hello, World! \n");
-// //         run_count++;
-// //     } else {
-// //         terminal_writestring("Entered kernel_main again!\n");
-// //     }
-   
-// //     // Initialize the Global Descriptor Table (GDT).
-// //     init_gdt();
-// //     terminal_writestring("GDT setup successfully.\n");
-    
-// //     // Initialize the keyboard.
-// //     init_keyboard();
-// //     terminal_writestring("Keyboard initialized.\n");
-
-// //     // Register the keyboard interrupt handler.
-// //     // This is hypothetical; the actual function name or mechanism might differ.
-// //     // For example, it could be something like this:
-// //     // register_interrupt_handler(IRQ1_KEYBOARD, keyboard_interrupt_handler);
-    
-// //     // Enter the kernel's main loop.
-// //     kernel_main_loop();
-
-// //     // Code should never reach this point.
-// //     return 0;
-// // }
-
-// #include "libc/gdt.h"
-// #include "libc/terminal.h"
-// #include "../../../arch/i386/interrupts/interrupts.h"
-// #include "../../../arch/i386/interrupts/keyboard.h"
-
-// // Assume terminal_writestring and terminal_readchar are defined elsewhere in your kernel
-// extern "C" void terminal_writestring(const char*);
-// extern "C" char terminal_readchar();
-
-// // ISR for keyboard (this needs to be written and linked to the actual keyboard interrupt)
-// extern "C" void keyboard_isr_handler();
-
-// // Keyboard buffer (this is a simplistic representation, you'll want a proper ring buffer)
-// #define KEYBOARD_BUFFER_SIZE 256
-// char keyboard_buffer[KEYBOARD_BUFFER_SIZE];
-// unsigned int keyboard_buffer_write_index = 0;
-// unsigned int keyboard_buffer_read_index = 0;
-
-// // Function to read a character from the keyboard buffer
-// char read_char_from_keyboard_buffer() {
-//     // If the read index is equal to the write index, there is no new data
-//     if (keyboard_buffer_read_index == keyboard_buffer_write_index) {
-//         return '\0';  // No new character
-//     }
-    
-//     char ch = keyboard_buffer[keyboard_buffer_read_index];
-//     keyboard_buffer_read_index = (keyboard_buffer_read_index + 1) % KEYBOARD_BUFFER_SIZE;
-//     return ch;
-// }
-
-// // Main kernel loop
-// void kernel_main_loop() {
-//     while (true) {
-//         // Halt the CPU until an interrupt happens
-//         asm volatile ("hlt");
-        
-//         // Process keyboard input if available
-//         char ch = read_char_from_keyboard_buffer();
-//         if (ch != '\0') {
-//             // Do something with the character
-//             // For example, echo it back to the terminal
-//             char str[2] = {ch, '\0'};
-//             terminal_writestring(str);
-//         }
-//     }
-// }
-
-// extern "C" int kernel_main() {
-//     // Initialize the GDT
-//     init_gdt();
-//     terminal_writestring("GDT setup successfully.\n");
-
-//     // Initialize the keyboard and register the ISR
-//     init_keyboard();
-//     terminal_writestring("Keyboard initialized.\n");
-//     register_interrupt_handler(IRQ1_KEYBOARD, keyboard_isr_handler);
-
-//     // Enter the kernel's main loop
-//     kernel_main_loop();
-
-//     // The code should never reach this point
-//     return 0;
-// }
-
-
-// extern "C" {
-//     #include "gdt.h"
-//     #include "terminal.h"
-//     #include "../../../arch/i386/interrupts/interrupts.h"
-//     #include "../../../arch/i386/interrupts/keyboard.h"
-//     // You can include other C headers that need C linkage here.
-// }
-
-// // Assume these functions are defined in their respective C files
-// extern "C" void init_gdt();
-// extern "C" void init_keyboard();
-
-// extern "C" int kernel_main() {
-//     terminal_initialize(); // Initialize your terminal first
-//     terminal_writestring("Kernel Initialized\n");
-
-//     init_gdt(); // Initialize the Global Descriptor Table
-//     terminal_writestring("GDT initialized.\n");
-
-//     init_keyboard(); // Set up keyboard handling
-//     terminal_writestring("Keyboard ready. Type something:\n");
-
-//     // Enable interrupts on the processor (if not already enabled in init_keyboard)
-//     asm volatile("sti");
-
-//     while(true) {
-//         asm volatile("hlt"); // Wait for the next interrupt
-//     }
-//     return 0; // We should never get here
-// }

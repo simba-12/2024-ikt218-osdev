@@ -1,58 +1,68 @@
-#include "libc/terminal.h"
-#include "libc/stddef.h" 
-#include "libc/kstd.h"
 
 
+#define VGA_COLOR_LIGHT_GREY 0x07
+#define VGA_COLOR_BLACK 0x00
 
+#include "terminal.h"
+#include "io.h" // Include for port I/O functions
 
-// VGA text mode buffer address
-volatile char* const VGA_TEXT_MODE_BUFFER = (char*)0xB8000;
-// Screen size
-const unsigned int VGA_WIDTH = 80;
-const unsigned int VGA_HEIGHT = 25;
+#define VGA_WIDTH 80
+#define VGA_HEIGHT 25
+#define VGA_MEMORY (uint16_t*)0xB8000
 
-
-// Current cursor position
-unsigned int terminal_row = 0;
-unsigned int terminal_column = 0;
-// Terminal color and buffer
-unsigned char terminal_color = 0x02; // Green on Black
-volatile char* terminal_buffer = (volatile char*)VGA_TEXT_MODE_BUFFER;
+static uint16_t* terminal_buffer;
+static int terminal_row;
+static int terminal_column;
 
 void terminal_initialize(void) {
-    for (unsigned int y = 0; y < VGA_HEIGHT; y++) {
-        for (unsigned int x = 0; x < VGA_WIDTH; x++) {
-            const size_t index = (y * VGA_WIDTH + x) * 2;
-            terminal_buffer[index] = ' ';
-            terminal_buffer[index + 1] = terminal_color;
-        }
+    terminal_buffer = VGA_MEMORY;
+    terminal_row = 0;
+    terminal_column = 0;
+}
+
+
+void terminal_backspace(void) {
+    if (terminal_column > 0) {
+        terminal_column--;
+    } else if (terminal_row > 0) {
+        terminal_row--;
+        terminal_column = VGA_WIDTH - 1;
     }
+    terminal_buffer[terminal_row * VGA_WIDTH + terminal_column] = (uint16_t)(VGA_COLOR_LIGHT_GREY << 8) | ' ';
 }
-
-
-void terminal_putentryat(char c, char color, int x, int y) {
-    const size_t index = (y * VGA_WIDTH + x) * 2;
-    terminal_buffer[index] = c;
-    terminal_buffer[index + 1] = color;
-}
-
 void terminal_putchar(char c) {
     if (c == '\n') {
+        terminal_row++;
         terminal_column = 0;
-        if (++terminal_row == VGA_HEIGHT)  // Now comparing unsigned int with unsigned int
-            terminal_row = 0;
+    } else if (c == '\b') {
+        terminal_backspace();
     } else {
-        terminal_putentryat(c, terminal_color, terminal_column, terminal_row);
-        if (++terminal_column == VGA_WIDTH) {  // Now comparing unsigned int with unsigned int
+        terminal_buffer[terminal_row * VGA_WIDTH + terminal_column] = (uint16_t)((VGA_COLOR_LIGHT_GREY << 8) | c);
+        terminal_column++;
+        if (terminal_column >= VGA_WIDTH) {
             terminal_column = 0;
-            if (++terminal_row == VGA_HEIGHT)  // Now comparing unsigned int with unsigned int
-                terminal_row = 0;
+            terminal_row++;
+        }
+    }
+
+    // Correct place for the closing brace of the if statement
+    if (terminal_row >= VGA_HEIGHT) {
+        // Scroll up
+        for (int y = 1; y < VGA_HEIGHT; y++) {
+            for (int x = 0; x < VGA_WIDTH; x++) {
+                terminal_buffer[(y - 1) * VGA_WIDTH + x] = terminal_buffer[y * VGA_WIDTH + x];
+            }
+        }
+        // Clear the last line after scrolling up
+        for (int x = 0; x < VGA_WIDTH; x++) {
+            terminal_buffer[terminal_row * VGA_WIDTH + x] = (uint16_t)((VGA_COLOR_LIGHT_GREY << 8) | ' ');
         }
     }
 }
 
-
 void terminal_writestring(const char* string) {
-    for (size_t i = 0; string[i] != '\0'; i++)
+    for (size_t i = 0; string[i] != '\0'; i++) {
         terminal_putchar(string[i]);
+    }
 }
+

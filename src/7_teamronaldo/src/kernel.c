@@ -1,22 +1,13 @@
-#include "libc/stdint.h"
-#include "libc/stddef.h"
-#include "libc/stdbool.h"
-#include <multiboot2.h>
+#include <stdint.h>
+#include <multiboot2.h> // Assuming this is the correct header file
 
-
-
-struct multiboot_info {
-    uint32_t size;
-    uint32_t reserved;
-    struct multiboot_tag *first;
-};
-
-int kernel_main();
-
+// Include the prototype for kernel_main
+extern int kernel_main(uint32_t magic, struct multiboot_info* mb_info_addr);
 
 int main(uint32_t magic, struct multiboot_info* mb_info_addr) {
+    // Call the C++ kernel_main function
 
+    //asm volatile("int $0x1");
 
-    // Call cpp kernel_main (defined in kernel.cpp)
-    return kernel_main();
+    return kernel_main(magic, mb_info_addr);
 }
