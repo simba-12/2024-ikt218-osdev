@@ -1,24 +1,35 @@
-
-section .text
 global gdt_flush
 
 gdt_flush:
-    ; Argument (pointer to gdt_ptr structure) is passed in via the stack
-    mov eax, [esp + 4]  ; Get the gdt_ptr address from the stack
+  MOV eax, [esp+4]
+  LGDT [eax]
 
-    lgdt [eax]          ; Load the new GDT with the lgdt instruction
+  MOV eax, 0x10
+  MOV ds, ax
+  MOV es, ax
+  MOV fs, ax
+  MOV gs, ax
+  MOV ss, ax
+  JMP 0x08:.flush
 
-    ; Update data segment registers
-    mov ax, 0x10      ; 0x10 is the selector for the data segment in GDT, assuming a flat memory model
-    mov ds, ax
-    mov es, ax
-    mov fs, ax
-    mov gs, ax
-    mov ss, ax
+.flush:
+  RET
 
-    ; Far jump to update the code segment register (CS)
-    ; The jump target is a label in the same segment to ensure the offset is correct
-    jmp 0x08:flush_cs   ; 0x08 is the selector for the code segment in GDT
 
-flush_cs:
-    ret
+
+; global gdt_flush
+
+; gdt_flush:
+;     MOV eax, [esp + 4]
+;     LGDT [eax]
+
+;     MOV eax, 0x10
+;     MOV ds, ax
+;     MOV es, ax
+;     MOV fs, ax
+;     MOV gs, ax
+;     MOV ss, ax
+;     JMP 0x08:.flush
+
+; .flush:
+;     RET

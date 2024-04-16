@@ -1,3 +1,3 @@
-// #pragma once
+ #pragma once
 
-// void print(const char* data);
+ void print(const char* data);
