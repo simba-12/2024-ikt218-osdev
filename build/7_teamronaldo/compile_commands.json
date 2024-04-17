@@ -11,11 +11,6 @@
 },
 {
   "directory": "/workspaces/2024-ikt218-osdev/build/7_teamronaldo",
-  "command": "/usr/local/bin/i686-elf-g++ -I/workspaces/2024-ikt218-osdev/src/7_teamronaldo/src/7_teamronaldo/include -I/workspaces/2024-ikt218-osdev/src/7_teamronaldo/include/libc -I/workspaces/2024-ikt218-osdev/src/7_teamronaldo/src/arch/i386/interrupts -I/workspaces/2024-ikt218-osdev/src/7_teamronaldo/include -g -Wall -Wextra -nostdinc -nostdlib -fno-builtin -fno-stack-protector -fno-stack-check -fno-lto -fPIE -m32 -march=i386 -mno-mmx -mno-sse -mno-sse2 -mno-red-zone -g -Wno-unused-variable -Wno-unused-parameter -std=gnu++20 -o CMakeFiles/uiaos-kernel.dir/src/kernel.cpp.o -c /workspaces/2024-ikt218-osdev/src/7_teamronaldo/src/kernel.cpp",
-  "file": "/workspaces/2024-ikt218-osdev/src/7_teamronaldo/src/kernel.cpp"
-},
-{
-  "directory": "/workspaces/2024-ikt218-osdev/build/7_teamronaldo",
   "command": "/usr/local/bin/i686-elf-gcc -I/workspaces/2024-ikt218-osdev/src/7_teamronaldo/src/7_teamronaldo/include -I/workspaces/2024-ikt218-osdev/src/7_teamronaldo/include/libc -I/workspaces/2024-ikt218-osdev/src/7_teamronaldo/src/arch/i386/interrupts -I/workspaces/2024-ikt218-osdev/src/7_teamronaldo/include -g -Wall -Wextra -nostdinc -nostdlib -fno-builtin -fno-stack-protector -fno-stack-check -fno-lto -fPIE -m32 -march=i386 -mno-mmx -mno-sse -mno-sse2 -mno-red-zone -Wno-main -g -Wno-unused-variable -Wno-unused-parameter -std=gnu99 -o CMakeFiles/uiaos-kernel.dir/src/gdt/gdt.c.o -c /workspaces/2024-ikt218-osdev/src/7_teamronaldo/src/gdt/gdt.c",
   "file": "/workspaces/2024-ikt218-osdev/src/7_teamronaldo/src/gdt/gdt.c"
 },
@@ -26,8 +21,8 @@
 },
 {
   "directory": "/workspaces/2024-ikt218-osdev/build/7_teamronaldo",
-  "command": "/usr/local/bin/i686-elf-gcc -I/workspaces/2024-ikt218-osdev/src/7_teamronaldo/src/7_teamronaldo/include -I/workspaces/2024-ikt218-osdev/src/7_teamronaldo/include/libc -I/workspaces/2024-ikt218-osdev/src/7_teamronaldo/src/arch/i386/interrupts -I/workspaces/2024-ikt218-osdev/src/7_teamronaldo/include -g -Wall -Wextra -nostdinc -nostdlib -fno-builtin -fno-stack-protector -fno-stack-check -fno-lto -fPIE -m32 -march=i386 -mno-mmx -mno-sse -mno-sse2 -mno-red-zone -Wno-main -g -Wno-unused-variable -Wno-unused-parameter -std=gnu99 -o CMakeFiles/uiaos-kernel.dir/src/terminal/terminal.c.o -c /workspaces/2024-ikt218-osdev/src/7_teamronaldo/src/terminal/terminal.c",
-  "file": "/workspaces/2024-ikt218-osdev/src/7_teamronaldo/src/terminal/terminal.c"
+  "command": "/usr/bin/nasm -I/workspaces/2024-ikt218-osdev/src/7_teamronaldo/src/7_teamronaldo/include -I/workspaces/2024-ikt218-osdev/src/7_teamronaldo/include/libc -I/workspaces/2024-ikt218-osdev/src/7_teamronaldo/src/arch/i386/interrupts -I/workspaces/2024-ikt218-osdev/src/7_teamronaldo/include -f elf32 -o CMakeFiles/uiaos-kernel.dir/src/arch/i386/interrupts/idt.asm.o /workspaces/2024-ikt218-osdev/src/7_teamronaldo/src/arch/i386/interrupts/idt.asm",
+  "file": "/workspaces/2024-ikt218-osdev/src/7_teamronaldo/src/arch/i386/interrupts/idt.asm"
 },
 {
   "directory": "/workspaces/2024-ikt218-osdev/build/7_teamronaldo",
@@ -36,13 +31,13 @@
 },
 {
   "directory": "/workspaces/2024-ikt218-osdev/build/7_teamronaldo",
-  "command": "/usr/bin/nasm -I/workspaces/2024-ikt218-osdev/src/7_teamronaldo/src/7_teamronaldo/include -I/workspaces/2024-ikt218-osdev/src/7_teamronaldo/include/libc -I/workspaces/2024-ikt218-osdev/src/7_teamronaldo/src/arch/i386/interrupts -I/workspaces/2024-ikt218-osdev/src/7_teamronaldo/include -f elf32 -o CMakeFiles/uiaos-kernel.dir/src/arch/i386/interrupts/isr.asm.o /workspaces/2024-ikt218-osdev/src/7_teamronaldo/src/arch/i386/interrupts/isr.asm",
-  "file": "/workspaces/2024-ikt218-osdev/src/7_teamronaldo/src/arch/i386/interrupts/isr.asm"
+  "command": "/usr/local/bin/i686-elf-gcc -I/workspaces/2024-ikt218-osdev/src/7_teamronaldo/src/7_teamronaldo/include -I/workspaces/2024-ikt218-osdev/src/7_teamronaldo/include/libc -I/workspaces/2024-ikt218-osdev/src/7_teamronaldo/src/arch/i386/interrupts -I/workspaces/2024-ikt218-osdev/src/7_teamronaldo/include -g -Wall -Wextra -nostdinc -nostdlib -fno-builtin -fno-stack-protector -fno-stack-check -fno-lto -fPIE -m32 -march=i386 -mno-mmx -mno-sse -mno-sse2 -mno-red-zone -Wno-main -g -Wno-unused-variable -Wno-unused-parameter -std=gnu99 -o CMakeFiles/uiaos-kernel.dir/src/arch/i386/interrupts/util.c.o -c /workspaces/2024-ikt218-osdev/src/7_teamronaldo/src/arch/i386/interrupts/util.c",
+  "file": "/workspaces/2024-ikt218-osdev/src/7_teamronaldo/src/arch/i386/interrupts/util.c"
 },
 {
   "directory": "/workspaces/2024-ikt218-osdev/build/7_teamronaldo",
-  "command": "/usr/local/bin/i686-elf-g++ -I/workspaces/2024-ikt218-osdev/src/7_teamronaldo/src/7_teamronaldo/include -I/workspaces/2024-ikt218-osdev/src/7_teamronaldo/include/libc -I/workspaces/2024-ikt218-osdev/src/7_teamronaldo/src/arch/i386/interrupts -I/workspaces/2024-ikt218-osdev/src/7_teamronaldo/include -g -Wall -Wextra -nostdinc -nostdlib -fno-builtin -fno-stack-protector -fno-stack-check -fno-lto -fPIE -m32 -march=i386 -mno-mmx -mno-sse -mno-sse2 -mno-red-zone -g -Wno-unused-variable -Wno-unused-parameter -std=gnu++20 -o CMakeFiles/uiaos-kernel.dir/src/arch/i386/interrupts/isr.cpp.o -c /workspaces/2024-ikt218-osdev/src/7_teamronaldo/src/arch/i386/interrupts/isr.cpp",
-  "file": "/workspaces/2024-ikt218-osdev/src/7_teamronaldo/src/arch/i386/interrupts/isr.cpp"
+  "command": "/usr/local/bin/i686-elf-gcc -I/workspaces/2024-ikt218-osdev/src/7_teamronaldo/src/7_teamronaldo/include -I/workspaces/2024-ikt218-osdev/src/7_teamronaldo/include/libc -I/workspaces/2024-ikt218-osdev/src/7_teamronaldo/src/arch/i386/interrupts -I/workspaces/2024-ikt218-osdev/src/7_teamronaldo/include -g -Wall -Wextra -nostdinc -nostdlib -fno-builtin -fno-stack-protector -fno-stack-check -fno-lto -fPIE -m32 -march=i386 -mno-mmx -mno-sse -mno-sse2 -mno-red-zone -Wno-main -g -Wno-unused-variable -Wno-unused-parameter -std=gnu99 -o CMakeFiles/uiaos-kernel.dir/src/arch/i386/interrupts/vga.c.o -c /workspaces/2024-ikt218-osdev/src/7_teamronaldo/src/arch/i386/interrupts/vga.c",
+  "file": "/workspaces/2024-ikt218-osdev/src/7_teamronaldo/src/arch/i386/interrupts/vga.c"
 },
 {
   "directory": "/workspaces/2024-ikt218-osdev/build/7_teamronaldo",
@@ -51,7 +46,7 @@
 },
 {
   "directory": "/workspaces/2024-ikt218-osdev/build/7_teamronaldo",
-  "command": "/usr/local/bin/i686-elf-g++ -I/workspaces/2024-ikt218-osdev/src/7_teamronaldo/src/7_teamronaldo/include -I/workspaces/2024-ikt218-osdev/src/7_teamronaldo/include/libc -I/workspaces/2024-ikt218-osdev/src/7_teamronaldo/src/arch/i386/interrupts -I/workspaces/2024-ikt218-osdev/src/7_teamronaldo/include -g -Wall -Wextra -nostdinc -nostdlib -fno-builtin -fno-stack-protector -fno-stack-check -fno-lto -fPIE -m32 -march=i386 -mno-mmx -mno-sse -mno-sse2 -mno-red-zone -g -Wno-unused-variable -Wno-unused-parameter -std=gnu++20 -o CMakeFiles/uiaos-kernel.dir/src/arch/i386/interrupts/interrupts.cpp.o -c /workspaces/2024-ikt218-osdev/src/7_teamronaldo/src/arch/i386/interrupts/interrupts.cpp",
-  "file": "/workspaces/2024-ikt218-osdev/src/7_teamronaldo/src/arch/i386/interrupts/interrupts.cpp"
+  "command": "/usr/local/bin/i686-elf-gcc -I/workspaces/2024-ikt218-osdev/src/7_teamronaldo/src/7_teamronaldo/include -I/workspaces/2024-ikt218-osdev/src/7_teamronaldo/include/libc -I/workspaces/2024-ikt218-osdev/src/7_teamronaldo/src/arch/i386/interrupts -I/workspaces/2024-ikt218-osdev/src/7_teamronaldo/include -g -Wall -Wextra -nostdinc -nostdlib -fno-builtin -fno-stack-protector -fno-stack-check -fno-lto -fPIE -m32 -march=i386 -mno-mmx -mno-sse -mno-sse2 -mno-red-zone -Wno-main -g -Wno-unused-variable -Wno-unused-parameter -std=gnu99 -o CMakeFiles/uiaos-kernel.dir/src/arch/i386/interrupts/timer.c.o -c /workspaces/2024-ikt218-osdev/src/7_teamronaldo/src/arch/i386/interrupts/timer.c",
+  "file": "/workspaces/2024-ikt218-osdev/src/7_teamronaldo/src/arch/i386/interrupts/timer.c"
 }
 ]
