@@ -34,6 +34,11 @@ int main(uint32_t magic, struct multiboot_tag *mb_info) {
 
     
 
+
+
+
+
+
     // Test keyboard (uncomment if needed)
     initkeyboard();
      printf("Keyboard initialization done\n");
@@ -43,7 +48,7 @@ int main(uint32_t magic, struct multiboot_tag *mb_info) {
     // Infinite loop to halt CPU
     while (1) {
         // Uncomment the following line if you want to halt CPU
-         //asm volatile("hlt");
+         asm volatile("hlt");
     }
 
 return 0;

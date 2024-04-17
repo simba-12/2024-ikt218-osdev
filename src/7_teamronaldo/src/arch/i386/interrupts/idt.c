@@ -221,7 +221,9 @@
 #include "stdint.h"
 #include "util.h"
 #include "idt.h"
-#include "vga.h"  
+#include "vga.h" 
+#include "keyboard.h" 
+
 
 struct idt_entry_struct idt_entries[256];
 struct idt_ptr_struct idt_ptr;
@@ -243,7 +245,10 @@ void initIdt() {
     outPortB(0xA1, 0x02);
     outPortB(0x21, 0x01);
     outPortB(0xA1, 0x01);
-    outPortB(0x21, 0xfd);
+    outPortB(0x21, 0x0);
+
+
+    //outPortB(0x21, 0xfd);
     outPortB(0xA1, 0x00);
 
 

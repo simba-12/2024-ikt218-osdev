@@ -79,12 +79,13 @@ add_executable(uiaos-kernel
 	#src/libc/stdio.c
 	src/gdt/gdt.c
 	src/gdt/gdt.asm
-	#src/terminal/terminal.c
 	src/arch/i386/interrupts/idt.asm
 	src/arch/i386/interrupts/idt.c
 	src/arch/i386/interrupts/util.c
 	src/arch/i386/interrupts/vga.c
 	src/arch/i386/interrupts/keyboard.c
+	src/arch/i386/interrupts/timer.c
+
 
 	
 

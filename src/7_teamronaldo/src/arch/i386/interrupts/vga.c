@@ -1,131 +1,3 @@
-// // #include "vga.h"
-// // #include <string.h>
-
-// // static volatile uint16_t* const VGA_MEMORY = (uint16_t*) 0xB8000;
-// // static size_t terminal_row;
-// // static size_t terminal_column;
-// // static uint8_t terminal_color;
-// // static uint16_t* terminal_buffer;
-
-// // void vga_initialize(void) {
-// //     terminal_row = 0;
-// //     terminal_column = 0;
-// //     terminal_color = vga_entry_color(VGA_COLOR_LIGHT_GREY, VGA_COLOR_BLACK);
-// //     terminal_buffer = (uint16_t*) VGA_MEMORY;
-// //     for (size_t y = 0; y < VGA_HEIGHT; y++) {
-// //         for (size_t x = 0; x < VGA_WIDTH; x++) {
-// //             const size_t index = y * VGA_WIDTH + x;
-// //             terminal_buffer[index] = vga_entry(' ', terminal_color);
-// //         }
-// //     }
-// // }
-
-// // uint8_t vga_entry_color(enum vga_color fg, enum vga_color bg) {
-// //     return fg | bg << 4;
-// // }
-
-// // uint16_t vga_entry(unsigned char uc, uint8_t color) {
-// //     return (uint16_t) uc | (uint16_t) color << 8;
-// // }
-
-// // void vga_set_cursor(size_t x, size_t y) {
-// //     terminal_row = y;
-// //     terminal_column = x;
-// // }
-
-// // void vga_put_char(char c, uint8_t color, size_t x, size_t y) {
-// //     const size_t index = y * VGA_WIDTH + x;
-// //     terminal_buffer[index] = vga_entry(c, color);
-// // }
-
-// // void vga_write(const char* data, size_t size) {
-// //     for (size_t i = 0; i < size; i++) {
-// //         char c = data[i];
-// //         if (c == '\n') {
-// //             terminal_column = 0;
-// //             if (++terminal_row == VGA_HEIGHT)
-// //                 terminal_row = 0;
-// //         } else {
-// //             vga_put_char(c, terminal_color, terminal_column, terminal_row);
-// //             if (++terminal_column == VGA_WIDTH) {
-// //                 terminal_column = 0;
-// //                 if (++terminal_row == VGA_HEIGHT)
-// //                     terminal_row = 0;
-// //             }
-// //         }
-// //     }
-// // }
-
-// // void vga_write_string(const char* data) {
-// //     vga_write(data, strlen(data));
-// // }
-
-
-
-
-
-
-
-
-// #include "vga.h"
-// #include <stdarg.h>
-
-// static volatile uint16_t* const VGA_MEMORY = (uint16_t*) 0xB8000;
-// static size_t terminal_row = 0;
-// static size_t terminal_column = 0;
-// static const uint8_t terminal_color = 0x07; // Light grey on black
-
-// void vga_initialize(void) {
-//     for (size_t y = 0; y < VGA_HEIGHT; y++) {
-//         for (size_t x = 0; x < VGA_WIDTH; x++) {
-//             const size_t index = y * VGA_WIDTH + x;
-//             VGA_MEMORY[index] = ' ' | (uint16_t)terminal_color << 8;
-//         }
-//     }
-// }
-
-// static void vga_put_char(char c) {
-//     if (c == '\n') {
-//         terminal_column = 0;
-//         if (++terminal_row == VGA_HEIGHT)
-//             terminal_row = 0;
-//     } else {
-//         const size_t index = terminal_row * VGA_WIDTH + terminal_column;
-//         VGA_MEMORY[index] = (uint16_t)c | (uint16_t)terminal_color << 8;
-//         if (++terminal_column == VGA_WIDTH) {
-//             terminal_column = 0;
-//             if (++terminal_row == VGA_HEIGHT)
-//                 terminal_row = 0;
-//         }
-//     }
-// }
-
-// void printf(const char *format, ...) {
-//     va_list args;
-//     va_start(args, format);
-
-//     while (*format != '\0') {
-//         if (*format == '%') {
-//             format++;
-//             if (*format == 's') {
-//                 char *str = va_arg(args, char *);
-//                 while (*str) {
-//                     vga_put_char(*str++);
-//                 }
-//             }
-//         } else {
-//             vga_put_char(*format);
-//         }
-//         format++;
-//     }
-
-//     va_end(args);
-// }
-
-
-
-
-
 
 #include "vga.h"
 #include <stdarg.h>
@@ -152,6 +24,18 @@ static void vga_put_char(char c) {
         terminal_column = 0;
         if (++terminal_row == VGA_HEIGHT)
             terminal_row = 0;
+    } else if (c == '\b') {
+        if (terminal_column > 0) {
+            terminal_column--;
+            const size_t index = terminal_row * VGA_WIDTH + terminal_column;
+            VGA_MEMORY[index] = ' ' | (uint16_t)terminal_color << 8;
+        } else if (terminal_row > 0) {
+            // Move to the end of the previous line
+            terminal_row--;
+            terminal_column = VGA_WIDTH - 1;
+            const size_t index = terminal_row * VGA_WIDTH + terminal_column;
+            VGA_MEMORY[index] = ' ' | (uint16_t)terminal_color << 8;
+        }
     } else {
         const size_t index = terminal_row * VGA_WIDTH + terminal_column;
         VGA_MEMORY[index] = (uint16_t)c | (uint16_t)terminal_color << 8;
@@ -162,6 +46,7 @@ static void vga_put_char(char c) {
         }
     }
 }
+
 
 void vga_write(const char *data) {
     for (size_t i = 0; data[i] != '\0'; i++)
@@ -218,7 +103,7 @@ static char* itoa(int n, char* s, int base) {
     return s;
 }
 
-// Custom printf function that handles %s, %d, and %x.
+
 void printf(const char *format, ...) {
     va_list args;
     va_start(args, format);
@@ -230,6 +115,11 @@ void printf(const char *format, ...) {
                 case 's': {  // String
                     char *str = va_arg(args, char*);
                     vga_write(str);
+                    break;
+                }
+                case 'c': {  // Character
+                    char chr = va_arg(args, int);
+                    vga_put_char(chr);
                     break;
                 }
                 case 'd': {  // Signed decimal integer
@@ -245,6 +135,7 @@ void printf(const char *format, ...) {
                     vga_write(itoa(num, buffer, 16));
                     break;
                 }
+                
             }
         } else {
             vga_put_char(*format);
@@ -254,4 +145,3 @@ void printf(const char *format, ...) {
 
     va_end(args);
 }
-
