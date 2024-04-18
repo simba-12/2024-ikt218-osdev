@@ -46,6 +46,8 @@ const uint32_t CAPS = 0xFFFFFFFF - 29;
 const uint32_t NONE = 0xFFFFFFFF - 30;
 const uint32_t ALTGR = 0xFFFFFFFF - 31;
 const uint32_t NUMLCK = 0xFFFFFFFF - 32;
+const uint32_t TAB = 0xFFFFFFFF - 33;
+
 
 const uint32_t lowercase[128] = {
     UNKNOWN, ESC, '1', '2', '3', '4', '5', '6', '7', '8',

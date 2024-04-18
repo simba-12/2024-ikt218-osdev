@@ -338,18 +338,12 @@ static const char *exception_messages[] = {
     "Reserved Exceptions"
 };
 
-
-
-
 void isr_handler(struct InterruptRegisters * regs) {
 
     if (regs->int_no < 32) {
         outPortB(0x20, 0x20);  // Acknowledge the interrupt to the PIC
-
         // Use printf to display the exception message
         printf("Received exception: %s\n", exception_messages[regs->int_no]);
-
-        // Here you can add any functionality you want to perform on an exception
         // For example, halting the system:
         for (;;);  // Infinite loop to halt the system
     }
@@ -360,36 +354,6 @@ void *irq_routines[16] = {
    0, 0, 0, 0, 0, 0, 0, 0,
    0, 0, 0, 0, 0, 0, 0, 0
  };
-
-
-// void irq_handler(uint32_t irq_number) {
-    
-//     // the master and the slave when handling hardware interrupts.
-//     if (irq_number >= 40) {
-//         outPortB(0xA0, 0x20); // EOI to slave
-//     }
-//     outPortB(0x20, 0x20); // EOI to master
-
-
-
-//     void (*handler)();
-//     handler = irq_routines[irq_number - 32];
-//     if (handler) {
-//         handler();  // Call the custom handler.
-//     }
-// }
-
-// void irq_install_handler(int irq, void (*handler)(void)) {
-//     irq_routines[irq] = handler;
-// }
-
-// void irq_uninstall_handler(int irq) {
-//     irq_routines[irq] = 0;
-// }
-
-
-
-
 
 
 void irq_install_handler(int irq, void (*handler)(struct InterruptRegisters *r)) {

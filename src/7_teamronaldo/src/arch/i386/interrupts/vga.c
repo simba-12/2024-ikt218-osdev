@@ -4,6 +4,7 @@
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
+#include <string.h>
 
 static volatile uint16_t* const VGA_MEMORY = (uint16_t*)0xB8000;
 static size_t terminal_row = 0;
@@ -18,6 +19,7 @@ void vga_initialize(void) {
         }
     }
 }
+
 
 static void vga_put_char(char c) {
     if (c == '\n') {
@@ -35,6 +37,13 @@ static void vga_put_char(char c) {
             terminal_column = VGA_WIDTH - 1;
             const size_t index = terminal_row * VGA_WIDTH + terminal_column;
             VGA_MEMORY[index] = ' ' | (uint16_t)terminal_color << 8;
+        }
+    } else if (c == '\t') {
+        // Handle tab character by advancing cursor to the next tab stop
+        size_t tab_size = 4; // Assume tab size of 4 spaces
+        size_t spaces_to_tab = tab_size - (terminal_column % tab_size);
+        for (size_t i = 0; i < spaces_to_tab; i++) {
+            vga_put_char(' '); // Insert spaces until the next tab stop
         }
     } else {
         const size_t index = terminal_row * VGA_WIDTH + terminal_column;

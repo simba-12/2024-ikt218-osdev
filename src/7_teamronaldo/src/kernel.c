@@ -26,17 +26,8 @@ int main(uint32_t magic, struct multiboot_tag *mb_info) {
 
     //  // Trigger a breakpoint exception
     //asm volatile("int $0x00");
-     //asm volatile("int $0x03");
+    asm volatile("int $0x03");
     // asm volatile("int $0x06");
-
-
-
-
-    
-
-
-
-
 
 
     // Test keyboard (uncomment if needed)
