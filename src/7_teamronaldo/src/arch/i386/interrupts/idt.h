@@ -158,12 +158,6 @@ void irq_install_handler(int irq, void (*handler)(struct InterruptRegisters *r))
 void irq_uninstall_handler(int irq);
 void irq_handler(struct InterruptRegisters* regs);
 
-
-
-//void irq_install_handler(int irq, void (*handler)(void));
-//void irq_uninstall_handler(int irq);
-//void irq_handler(uint32_t irq_number);
-
 #endif // IDT_H
 
 

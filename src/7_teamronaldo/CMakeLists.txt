@@ -76,7 +76,6 @@ add_executable(uiaos-kernel
 	src/multiboot2.asm # TODO: Add multiboot2 support
     src/kernel.c
 	src/kernel.cpp
-	#src/libc/stdio.c
 	src/gdt/gdt.c
 	src/gdt/gdt.asm
 	src/arch/i386/interrupts/idt.asm
@@ -84,14 +83,8 @@ add_executable(uiaos-kernel
 	src/arch/i386/interrupts/util.c
 	src/arch/i386/interrupts/vga.c
 	src/arch/i386/interrupts/keyboard.c
-	#src/arch/i386/interrupts/timer.c
 	src/arch/i386/memory/memory.c
-	src/arch/i386/interrupts/boot.s
 	src/arch/i386/interrupts/pit.c
-
-	#src/arch/i386/interrupts/malloc.c
-
-
 
 )
 

@@ -1,28 +1,3 @@
-// #ifndef PIT_H
-// #define PIT_H
-
-// #include <stdint.h>
-
-// // PIT (Programmable Interval Timer) related macros
-// #define PIT_CMD_PORT 0x43
-// #define PIT_CHANNEL0_PORT 0x40
-// #define PIT_DEFAULT_DIVISOR 0x4E20 // 20000, which gives about 18.2 Hz (1193180 / 20000)
-// //#define PIT_DEFAULT_DIVISOR 1193180
-// //#define WANTED_FREQUENCY 1000
-
-// void init_pit();
-// void sleep_interrupt(uint32_t milliseconds);
-// void sleep_busy(uint32_t milliseconds);
-
-// void timer_handler();
-
-// // Declare the timer_ticks variable
-// //extern volatile uint32_t timer_ticks;
-
-// // Declare the timer_handler function as an ISR
-// //void timer_handler(struct InterruptRegisters *regs);
-
-// #endif
 
 
 
