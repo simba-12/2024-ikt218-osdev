@@ -223,6 +223,7 @@
 #include "idt.h"
 #include "vga.h" 
 #include "keyboard.h" 
+#include "pit.h"
 
 
 struct idt_entry_struct idt_entries[256];
@@ -369,6 +370,12 @@ void irq_uninstall_handler(int irq) {
 void irq_handler(struct InterruptRegisters* regs) {
   void (*handler)(struct InterruptRegisters *regs);
   handler = irq_routines[regs->int_no - 32];
+
+
+  if (regs->int_no == 32)
+  {
+    timer_handler(&regs);
+  }
 
   if (handler) {
     handler(regs);
