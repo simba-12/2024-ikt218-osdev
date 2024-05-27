@@ -12,8 +12,6 @@
 void vga_initialize(void);
 void printf(const char *format, ...);
 
-
-
 // Add function prototypes for cursor movement functions here
 void move_cursor_left(void);
 void move_cursor_right(void);

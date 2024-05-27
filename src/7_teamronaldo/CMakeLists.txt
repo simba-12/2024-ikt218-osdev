@@ -9,6 +9,11 @@ include_directories("${CMAKE_SOURCE_DIR}/src/7_teamronaldo/include")
 include_directories(/workspaces/2024-ikt218-osdev/src/7_teamronaldo/include/libc)
 include_directories(/workspaces/2024-ikt218-osdev/src/7_teamronaldo/src/arch/i386/interrupts)
 
+
+
+
+
+
 # include_directories(
 #     "${CMAKE_SOURCE_DIR}/src/7_teamronaldo/include"
 #     "${CMAKE_SOURCE_DIR}/src/7_teamronaldo/include/libc"
@@ -75,6 +80,7 @@ set(OS_KERNEL_LINKER "${CMAKE_CURRENT_SOURCE_DIR}/src/arch/${OS_ARCH_TARGET}/lin
 add_executable(uiaos-kernel 
 	src/multiboot2.asm # TODO: Add multiboot2 support
     src/kernel.c
+	src/SongPlayer.cpp
 	src/kernel.cpp
 	src/gdt/gdt.c
 	src/gdt/gdt.asm
@@ -85,10 +91,10 @@ add_executable(uiaos-kernel
 	src/arch/i386/interrupts/keyboard.c
 	src/arch/i386/memory/memory.c
 	src/arch/i386/interrupts/pit.c
-
+	
+	#src/arch/i386/interrupts/song.cpp
+	#src/arch/i386/interrupts/song_player.c
 )
-
-
 
 # Include directories for the kernel target
 target_include_directories(uiaos-kernel PUBLIC include)
@@ -98,6 +104,9 @@ target_include_directories(uiaos-kernel PUBLIC include)
 # )
 
    
+
+
+
 
 
 # Specify compile options for C and C++

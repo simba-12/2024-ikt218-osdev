@@ -8,7 +8,8 @@
 #include <string.h>
 #include "keyboard.h"
 #include "util.h" 
-
+#include "pit.h"
+#include "memory.h"
 
 static volatile uint16_t* const VGA_MEMORY = (uint16_t*)0xB8000;
 //static volatile uint16_t* const VGA_MEMORY = (uint16_t*)0xC00B8000;
@@ -167,7 +168,6 @@ static char* itoa(int n, char* s, int base) {
 
     return s;
 }
-
 
 void printf(const char *format, ...) {
     va_list args;

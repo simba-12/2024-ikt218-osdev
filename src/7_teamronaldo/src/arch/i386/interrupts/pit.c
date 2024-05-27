@@ -12,6 +12,7 @@ extern volatile uint32_t timer_ticks;  // Ensure this is defined where the PIT h
 
 void timer_handler(struct InterruptRegisters *regs) {
     timer_ticks++;  // Increment a counter every time the timer fires
+    int timer_tickss = timer_ticks;
     /*if (timer_ticks % 1000 == 0) {
         printf("100 ticks have passed.\n");
     }*/
@@ -53,5 +54,3 @@ void sleep_busy(uint32_t milliseconds) {
         // Busy wait: No operation inside, just waiting for the time to pass
     }
 }
-
-

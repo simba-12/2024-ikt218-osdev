@@ -19,9 +19,6 @@ static uint32_t* page_directory = 0;   // Define a pointer to the page directory
 static uint32_t page_dir_loc = 0;      // Define the location of the page directory and initialize it to zero
 static uint32_t* last_page = 0; 
 
-
-
-
 // Global variables for heap management
 uint32_t last_alloc = 0;
 uint32_t heap_end = 0;
@@ -117,10 +114,6 @@ void print_memory_layout() {
     printf("PHeap end: 0x%X\n", pheap_end);
 }
 
-
-
-
-
 // Function to map virtual addresses to physical addresses
 void paging_map_virtual_to_phys(uint32_t virt, uint32_t phys)
 {
@@ -133,9 +126,6 @@ void paging_map_virtual_to_phys(uint32_t virt, uint32_t phys)
     page_directory[id] = ((uint32_t)last_page) | 3;  // Set the page directory entry for the virtual address to the physical address of the page table with present and write permissions set
     last_page = (uint32_t *)(((uint32_t)last_page) + 4096); // Move to the next page in memory
 }
-
-
-
 
 // Function to enable paging
 void paging_enable()
@@ -163,10 +153,6 @@ void init_paging()
      paging_enable();                          // Enable paging
      printf("Paging was successfully enabled!\n");
  }
-
-
-
-
 
 void* malloc(size_t size) {
     // Align the size to 4 bytes
